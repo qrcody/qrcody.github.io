@@ -1,4 +1,5 @@
 import os
+import shutil
 import sys
 sys.path.insert(1, '../python-qrcode')
 import qrcode
@@ -23,10 +24,13 @@ def main():
                 print('Created file ' + root_folder + '/' + dir + '/' + 'style.css')
                 file = open(root_folder + '/' + 'index.html', 'w+')
                 print('Created file ' + root_folder + '/' + 'index.html')
+            if dir == 'pages':
+                shutil.copy2('menu_template.html', root_folder + '/pages/menu.html') # complete target filename given
+            	#file = open(root_folder + '/pages/menu.html', 'w+')
 
         except OSError:
             pass
-	url = 'https://www.codinha.dev/' + root_folder + '/pages/menu.html'
+    url = 'https://www.codinha.dev/' + root_folder + '/pages/menu.html'
 
 def createQRCode():
     qr = qrcode.QRCode(
@@ -37,6 +41,7 @@ def createQRCode():
     )
     qr.add_data(url)
     qr.make(fit=True)
+    print("Created qrcode to url: " + url)
 
     img = qr.make_image(fill_color="black", back_color="white")
     img = img.save(root_folder + "_qrcode.png")
